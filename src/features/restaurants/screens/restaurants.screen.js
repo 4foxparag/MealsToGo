@@ -8,36 +8,35 @@ import {
   StatusBar,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
+import styled from "styled-components";
 import { RestaurantInfoCard } from "../components/restaurants-info-card.components";
 
 const isAndroid = Platform.OS === "android";
 
+const SafeArea = styled(SafeAreaView)`
+  flex: 1;
+  ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}px`};
+`;
+
+const SearchContainer = styled(View)`
+  padding: ${(props) => props.theme.space.s8};
+`;
+
+const RestaurentListContainer = styled(View)`
+  flex: 1;
+  padding: ${(props) => props.theme.space.s16};
+`;
+
+console.log;
 export const RestaurantsScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.searchContainer}>
+    <SafeArea>
+      <SearchContainer>
         <Searchbar />
-      </View>
-      <View style={styles.list}>
+      </SearchContainer>
+      <RestaurentListContainer>
         <RestaurantInfoCard />
-      </View>
-    </SafeAreaView>
+      </RestaurentListContainer>
+    </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    marginTop: isAndroid ? StatusBar.currentHeight : 0,
-  },
-  searchContainer: {
-    padding: 16,
-    backgroundColor: "green",
-  },
-  list: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "blue",
-  },
-});
