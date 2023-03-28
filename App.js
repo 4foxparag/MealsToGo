@@ -14,6 +14,44 @@ import { ThemeProvider } from "styled-components/native";
 
 import { Text } from "react-native";
 
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { SafeArea } from "./src/components/utility/safe-area.components";
+import { Ionicons } from "@expo/vector-icons";
+
+const Tab = createBottomTabNavigator();
+
+const TAB_ICONS = {
+  Restaurants: "md-restaurant",
+  Map: "md-map",
+  Settings: "md-settings",
+};
+
+const Settings = () => {
+  return (
+    <SafeArea>
+      <Text>Stttings Scrren</Text>
+    </SafeArea>
+  );
+};
+
+const Map = () => {
+  return (
+    <SafeArea>
+      <Text>Map Scrren</Text>
+    </SafeArea>
+  );
+};
+
+const createScreenOptions = ({ route }) => {
+  const iconName = TAB_ICONS[route.name];
+  return {
+    tabBarIcon: ({ size, color }) => (
+      <Ionicons name={iconName} size={size} color={color} />
+    ),
+  };
+};
+
 export default function App() {
   const [oswaldLoaded] = useOswald({ Oswald_400Regular });
   const [latoLoaded] = useLato({ Lato_400Regular });
@@ -23,7 +61,19 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <RestaurantsScreen />
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={createScreenOptions}
+            tabBarOptions={{
+              tabBarActiveTintColor: "tomato",
+              tabBarInactiveTintColor: "gray",
+            }}
+          >
+            <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
+            <Tab.Screen name="Map" component={Settings} />
+            <Tab.Screen name="Settings" component={Map} />
+          </Tab.Navigator>
+        </NavigationContainer>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
