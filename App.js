@@ -18,6 +18,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeArea } from "./src/components/utility/safe-area.components";
 import { Ionicons } from "@expo/vector-icons";
+import { RestaurantContextProvider } from "./src/services/restaurants/restaurants.context";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,9 +38,9 @@ const Settings = () => {
 
 const Map = () => {
   return (
-    <SafeArea>
-      <Text>Map Scrren</Text>
-    </SafeArea>
+    // <SafeArea>
+    <Text>Map Scrren</Text>
+    // </SafeArea>
   );
 };
 
@@ -49,6 +50,8 @@ const createScreenOptions = ({ route }) => {
     tabBarIcon: ({ size, color }) => (
       <Ionicons name={iconName} size={size} color={color} />
     ),
+    tabBarActiveTintColor: "tomato",
+    tabBarInactiveTintColor: "gray",
   };
 };
 
@@ -61,19 +64,15 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={createScreenOptions}
-            tabBarOptions={{
-              tabBarActiveTintColor: "tomato",
-              tabBarInactiveTintColor: "gray",
-            }}
-          >
-            <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
-            <Tab.Screen name="Map" component={Settings} />
-            <Tab.Screen name="Settings" component={Map} />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <RestaurantContextProvider>
+          <NavigationContainer>
+            <Tab.Navigator screenOptions={createScreenOptions}>
+              <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
+              <Tab.Screen name="Map" component={Map} />
+              <Tab.Screen name="Settings" component={Settings} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </RestaurantContextProvider>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
